@@ -1,4 +1,4 @@
-export function isEqual(a, b) {
+export function shallowEqual(a, b) {
   if (Object.is(a, b)) {
     return true;
   }

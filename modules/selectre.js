@@ -1,8 +1,13 @@
 import { LRUCache } from "./LRUCache.js";
 import { hashCode } from "./hashCode.js";
-import { isEqual } from "./isEqual.js";
+import { shallowEqual } from "./shallowEqual.js";
 
-let defaultOptions = { capacity: 250, isInputEqual: isEqual, isOutputEqual: isEqual, hashCode };
+let defaultOptions = {
+  capacity: 250,
+  isInputEqual: shallowEqual,
+  isOutputEqual: shallowEqual,
+  hashCode,
+};
 
 let slice = Array.prototype.slice;
 
@@ -39,7 +44,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
       let inputParams = [target].concat(Array.from(params));
       for (let i = 0; i < inputs.length; i++) {
         let inputValue = inputs[i].apply(null, inputParams);
-        if (!options.isInputEqual(inputValue, entry.inputs[i])) dirty = true;
+        dirty ||= !options.isInputEqual(inputValue, entry.inputs[i]);
         entry.inputs[i] = inputValue;
       }
       if (dirty) {
@@ -57,9 +62,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
   };
 }
 
-const EMPTY = "SELECTRE_EMPTY_KEY";
 function getCacheKey(params, hashCode) {
-  if (params.length === 0) return EMPTY;
   let hash = "";
   for (let i = 0; i < params.length; i++) {
     hash += hashCode(params[i]) + "/";
