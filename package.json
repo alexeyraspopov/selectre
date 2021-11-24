@@ -1,0 +1,35 @@
+{
+  "name": "selectre",
+  "version": "0.0.1",
+  "description": "A tiny time and space efficient state selectors for React, Redux, and more",
+  "author": "Alexey Raspopov",
+  "license": "ISC",
+  "homepage": "https://alexeyraspopov.github.io/selectre",
+  "repository": "alexeyraspopov/selectre",
+  "scripts": {
+    "test": "jest --config jest.config.js",
+    "build": "rollup --config rollup.config.js"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.0.3",
+    "@types/react": "^17.0.36",
+    "@types/redux": "^3.6.0",
+    "jest": "^27.3.1",
+    "prettier": "^2.4.1",
+    "react": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "rollup": "^2.60.0",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-copy": "^3.4.0",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "proseWrap": "always",
+    "trailingComma": "all"
+  }
+}
