@@ -30,6 +30,9 @@ function CompletedTodosCounter() {
 }
 ```
 
+Selectors uniformity is important because it affects the amount of effort needed to eventually add
+parameters to a simple selectors.
+
 ```tsx
 import { createSelector } from "selectre";
 import { useSelector } from "react-redux";
@@ -58,7 +61,7 @@ let selectNumberCompletedTodos = createSelector({
 
 ## Using Selectre with TypeScript
 
-<!-- 1. input signatures -->
+TBD
 
 ## Using Selectre with React's `useSyncExternaStore()`
 
@@ -66,7 +69,7 @@ let selectNumberCompletedTodos = createSelector({
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector";
 
 function useSelector(selector) {
-  // todo
+  // TODO
 }
 ```
 
