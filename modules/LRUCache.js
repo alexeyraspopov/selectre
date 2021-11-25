@@ -23,8 +23,8 @@ export function LRUCache(capacity) {
     }
 
     forward[prev] = next;
-    backward[head] = pointer;
     forward[pointer] = head;
+    backward[head] = pointer;
     head = pointer;
   }
 

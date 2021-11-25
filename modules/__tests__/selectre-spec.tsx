@@ -5,10 +5,9 @@ import { Provider, useSelector } from "react-redux";
 import { createSelector } from "../selectre.js";
 import "@testing-library/jest-dom";
 
-type State = { value: string; users: Array<{ id: string }> };
-
-describe("simple state selector", () => {
+describe("redux integration", () => {
   let initialState = { value: "hello", users: [{ id: "dummyId" }, { id: "anotherId" }] };
+  type State = typeof initialState;
   let store = createStore((state: State = initialState, action: any) => {
     return action.type === "UPDATE" ? (action.state as State) : state;
   });
