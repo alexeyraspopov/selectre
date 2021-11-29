@@ -1,6 +1,6 @@
 {
   "name": "selectre",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A tiny time and space efficient state selectors for React, Redux, and more",
   "author": "Alexey Raspopov",
   "license": "ISC",

@@ -49,4 +49,4 @@ function TodoCounter({ completed }) {
 }
 ```
 
-Read full docs [on the homepage](alexeyraspopov.github.io/selectre/).
+Read full docs [on the homepage](https://alexeyraspopov.github.io/selectre/).
