@@ -1,6 +1,8 @@
 # Selectre
 
-A tiny time and space efficient state selectors for React, Redux, and more.
+    npm install selectre
+
+Tiny time and space efficient state selectors for React, Redux, and more.
 
 - Selectre is built as a more efficient alternative to
   [Reselect](https://github.com/reduxjs/reselect)
@@ -105,7 +107,9 @@ function TodoCounter({ completed }) {
 
 A simple case of a selector with parameters, being used with Redux's `useSelector()`. Values in the
 selector are compared using shallow equality by default, nothing needs to be configured manually. If
-you want to have the same behavior implemented with Reselect, here is what needs to be done:
+you want to have the same behavior
+[implemented with Reselect](https://react-redux.js.org/api/hooks#using-memoizing-selectors), here is
+what needs to be done:
 
 ```tsx
 import { useMemo } from "react";

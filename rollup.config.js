@@ -10,7 +10,8 @@ export default {
   plugins: [
     copy({
       targets: [
-        { src: ["modules/selectre.d.ts", "LICENSE", "README.md"], dest: "build" },
+        { src: ["modules/selectre.d.ts", "LICENSE"], dest: "build" },
+        { src: "README_NPM.md", dest: "build", rename: "README.md" },
         { src: "package.json", dest: "build", transform: generatePkg },
       ],
     }),
