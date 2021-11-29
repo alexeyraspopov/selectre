@@ -42,7 +42,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
       let inputParams = [target].concat(Array.from(params));
       for (let i = 0; i < inputs.length; i++) {
         let inputValue = inputs[i].apply(null, inputParams);
-        dirty ||= !options.isInputEqual(inputValue, entry.inputs[i]);
+        dirty = dirty || !options.isInputEqual(inputValue, entry.inputs[i]);
         entry.inputs[i] = inputValue;
       }
       if (dirty) {
