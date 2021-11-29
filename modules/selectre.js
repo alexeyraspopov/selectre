@@ -37,7 +37,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
     }
 
     let entry = { inputs: new Array(inputs.length), result: null, selector: null };
-    let selector = (target) => {
+    function selector(target) {
       let dirty = false;
       let inputParams = [target].concat(Array.from(params));
       for (let i = 0; i < inputs.length; i++) {
@@ -52,7 +52,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
         }
       }
       return entry.result;
-    };
+    }
     entry.selector = selector;
     cache.set(key, entry);
 
