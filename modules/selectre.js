@@ -6,7 +6,7 @@ let defaults = {
   capacity: 256,
   isInputEqual: shallowEqual,
   isOutputEqual: shallowEqual,
-  hashCode,
+  cacheKey,
 };
 
 let slice = Array.prototype.slice;
@@ -16,7 +16,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
   let args = arguments;
 
   if (typeof args[args.length - 1] === "object") {
-    options = Object.create(defaults, Object.getOwnPropertyDescriptors(args[args.length - 1]));
+    options = Object.assign({}, defaults, args[args.length - 1]);
     inputs = slice.call(args, 0, args.length - 2);
     output = args[args.length - 2];
   } else {
@@ -29,7 +29,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
 
   return function selectorAccessor(/* ...params */) {
     let params = arguments;
-    let key = getCacheKey(params, options.hashCode);
+    let key = options.cacheKey.apply(null, params);
 
     if (cache.has(key)) {
       let entry = cache.get(key);
@@ -60,10 +60,10 @@ export function createSelector(/* ...inputs, ouput, options */) {
   };
 }
 
-function getCacheKey(params, hashCode) {
+function cacheKey() {
   let hash = "";
-  for (let i = 0; i < params.length; i++) {
-    hash += hashCode(params[i]) + "/";
+  for (let i = 0; i < arguments.length; i++) {
+    hash += hashCode(arguments[i]) + "/";
   }
   return hash;
 }
