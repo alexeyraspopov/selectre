@@ -27,7 +27,31 @@ export function createSelector(/* ...inputs, ouput, options */) {
 
   let cache = LRUCache(options.capacity);
 
-  return function selectorAccessor(/* ...params */) {
+  function outputSelectorAccessor(/* ...params */) {
+    let params = arguments;
+    let key = options.cacheKey.apply(null, params);
+
+    if (cache.has(key)) {
+      let entry = cache.get(key);
+      return entry.selector;
+    }
+
+    let entry = { result: null, selector: null };
+    function selector(target) {
+      let inputParams = params.length > 0 ? [target].concat(Array.from(params)) : [target];
+      let result = output.apply(null, inputParams);
+      if (!options.isOutputEqual(result, entry.result)) {
+        entry.result = result;
+      }
+      return entry.result;
+    }
+    entry.selector = selector;
+    cache.set(key, entry);
+
+    return entry.selector;
+  }
+
+  function selectorAccessor(/* ...params */) {
     let params = arguments;
     let key = options.cacheKey.apply(null, params);
 
@@ -39,7 +63,7 @@ export function createSelector(/* ...inputs, ouput, options */) {
     let entry = { inputs: new Array(inputs.length), result: null, selector: null };
     function selector(target) {
       let dirty = false;
-      let inputParams = [target].concat(Array.from(params));
+      let inputParams = params.length > 0 ? [target].concat(Array.from(params)) : [target];
       for (let i = 0; i < inputs.length; i++) {
         let inputValue = inputs[i].apply(null, inputParams);
         dirty = dirty || !options.isInputEqual(inputValue, entry.inputs[i]);
@@ -57,7 +81,9 @@ export function createSelector(/* ...inputs, ouput, options */) {
     cache.set(key, entry);
 
     return entry.selector;
-  };
+  }
+
+  return inputs.length > 0 ? selectorAccessor : outputSelectorAccessor;
 }
 
 function cacheKey() {

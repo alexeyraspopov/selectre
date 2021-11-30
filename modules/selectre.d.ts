@@ -5,6 +5,11 @@ type SelectorOptions<Params extends Array<any>> = {
   cacheKey?: (...params: Params) => string | number;
 };
 
+export function createSelector<Params extends Array<any>, State, Output>(
+  output: (state: State, ...params: Params) => Output,
+  options?: SelectorOptions<Params>,
+): (...params: Params) => (state: State) => Output;
+
 export function createSelector<Params extends Array<any>, State, R1, Output>(
   input1: (state: State, ...params: Params) => R1,
   output: (res1: R1) => Output,

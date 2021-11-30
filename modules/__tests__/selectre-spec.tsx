@@ -17,6 +17,12 @@ describe("redux integration", () => {
     (state) => state.value,
   );
 
+  let selectValueOutputOnly = createSelector((state: State) => state.value);
+
+  let selectValueOutputOnlyWithParam = createSelector(
+    (state: State, prefix: string) => prefix + state.value,
+  );
+
   let selectUser = createSelector(
     (_, userId: string) => userId,
     (state: State) => state.users,
@@ -25,11 +31,15 @@ describe("redux integration", () => {
   );
 
   function App({ userId }: { userId: string }) {
-    let value = useSelector(selectValue());
+    let value1 = useSelector(selectValue());
+    let value2 = useSelector(selectValueOutputOnly());
+    let value3 = useSelector(selectValueOutputOnlyWithParam(">"));
     let data = useSelector(selectUser(userId));
     return (
       <>
-        <span data-testid="outputValue">{value}</span>
+        <span data-testid="outputValue1">{value1}</span>
+        <span data-testid="outputValue2">{value2}</span>
+        <span data-testid="outputValue3">{value3}</span>
         <span data-testid="outputId">{data.id}</span>
       </>
     );
@@ -41,7 +51,9 @@ describe("redux integration", () => {
         <App userId="dummyId" />
       </Provider>,
     );
-    expect(screen.getByTestId("outputValue")).toHaveTextContent("hello");
+    expect(screen.getByTestId("outputValue1")).toHaveTextContent("hello");
+    expect(screen.getByTestId("outputValue2")).toHaveTextContent("hello");
+    expect(screen.getByTestId("outputValue3")).toHaveTextContent(">hello");
     expect(screen.getByTestId("outputId")).toHaveTextContent("dummyId");
   });
 
@@ -56,7 +68,9 @@ describe("redux integration", () => {
         <App userId="dummyId" />
       </Provider>,
     );
-    expect(screen.getByTestId("outputValue")).toHaveTextContent("changed");
+    expect(screen.getByTestId("outputValue1")).toHaveTextContent("changed");
+    expect(screen.getByTestId("outputValue2")).toHaveTextContent("changed");
+    expect(screen.getByTestId("outputValue3")).toHaveTextContent(">changed");
     expect(screen.getByTestId("outputId")).toHaveTextContent("dummyId");
   });
 
@@ -66,7 +80,9 @@ describe("redux integration", () => {
         <App userId="anotherId" />
       </Provider>,
     );
-    expect(screen.getByTestId("outputValue")).toHaveTextContent("changed");
+    expect(screen.getByTestId("outputValue1")).toHaveTextContent("changed");
+    expect(screen.getByTestId("outputValue2")).toHaveTextContent("changed");
+    expect(screen.getByTestId("outputValue3")).toHaveTextContent(">changed");
     expect(screen.getByTestId("outputId")).toHaveTextContent("anotherId");
   });
 });
