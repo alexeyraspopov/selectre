@@ -10,6 +10,7 @@ let defaults = {
 };
 
 let slice = Array.prototype.slice;
+let applyFns = {};
 
 export function createSelector(/* ...inputs, ouput, options */) {
   let options, inputs, output;
@@ -60,12 +61,20 @@ export function createSelector(/* ...inputs, ouput, options */) {
       return entry.selector;
     }
 
+    let apply =
+      applyFns[params.length] ||
+      (applyFns[params.length] = new Function(
+        "f",
+        "t",
+        "p",
+        `let i=0; return f(t${", p[i++]".repeat(params.length)});`,
+      ));
+
     let entry = { inputs: new Array(inputs.length), result: null, selector: null };
     function selector(target) {
       let dirty = false;
-      let inputParams = params.length > 0 ? [target].concat(Array.from(params)) : [target];
       for (let i = 0; i < inputs.length; i++) {
-        let inputValue = inputs[i].apply(null, inputParams);
+        let inputValue = apply(inputs[i], target, params);
         dirty = dirty || !options.isInputEqual(inputValue, entry.inputs[i]);
         entry.inputs[i] = inputValue;
       }
