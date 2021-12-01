@@ -21,10 +21,10 @@ Tiny time and space efficient state selectors for React, Redux, and more.
 import { createSelector } from "selectre";
 import { useSelector } from "react-redux";
 
-let selectNumberCompletedTodos = createSelector({
+let selectNumberCompletedTodos = createSelector(
   (state) => state.todos,
-  (todos) => todos.filter(todo => todo.completed).length,
-});
+  (todos) => todos.filter((todo) => todo.completed).length,
+);
 
 function CompletedTodosCounter() {
   let numberCompletedTodos = useSelector(selectNumberCompletedTodos());
@@ -39,11 +39,11 @@ parameters to a simple selectors.
 import { createSelector } from "selectre";
 import { useSelector } from "react-redux";
 
-let selectNumberFilteredTodos = createSelector({
+let selectNumberFilteredTodos = createSelector(
   (state) => state.todos,
   (_, completed) => completed,
-  (todos, completed) => todos.filter(todo => todo.completed === completed).length,
-});
+  (todos, completed) => todos.filter((todo) => todo.completed === completed).length,
+);
 
 function TodoCounter({ completed }) {
   let numberFilteredTodos = useSelector(selectNumberFilteredTodos(completed));
@@ -52,13 +52,13 @@ function TodoCounter({ completed }) {
 ```
 
 ```typescript
-let selectNumberCompletedTodos = createSelector({
+let selectNumberCompletedTodos = createSelector(
   (state) => state.todos,
   (_, completed) => completed,
-  (todos, completed) => todos.filter(todo => todo.completed === completed).length,
+  (todos, completed) => todos.filter((todo) => todo.completed === completed).length,
   // isInputEqual for comparing inputs, isOutputEqual for the output
   { isInputEqual: Object.is },
-});
+);
 ```
 
 ## Using Selectre with TypeScript
@@ -93,11 +93,11 @@ Getting into more details, let's consider the example that was described before:
 import { createSelector } from "selectre";
 import { useSelector } from "react-redux";
 
-let selectNumberFilteredTodos = createSelector({
+let selectNumberFilteredTodos = createSelector(
   (state) => state.todos,
   (_, completed) => completed,
-  (todos, completed) => todos.filter(todo => todo.completed === completed).length,
-});
+  (todos, completed) => todos.filter((todo) => todo.completed === completed).length,
+);
 
 function TodoCounter({ completed }) {
   let numberFilteredTodos = useSelector(selectNumberFilteredTodos(completed));
@@ -119,17 +119,20 @@ import { shallowEqual, useSelector } from "react-redux";
 
 // 2. need to make a factory function, because selector instances can't be shared by default
 let makeSelectNumberFilteredTodos = () =>
-  createSelector({
+  createSelector(
     (state) => state.todos,
     (_, completed) => completed,
-    (todos, completed) => todos.filter(todo => todo.completed === completed).length,
-  });
+    (todos, completed) => todos.filter((todo) => todo.completed === completed).length,
+  );
 
 function TodoCounter({ completed }) {
   // 3. additional friction in order to start using a selector
   let selectNumberFilteredTodos = useMemo(makeSelectNumberFilteredTodos, []);
   // 4. still need to use arrow function in useSelector() which means additional read operation
-  let numberFilteredTodos = useSelector((state) => selectNumberFilteredTodos(state, completed), shallowEqual);
+  let numberFilteredTodos = useSelector(
+    (state) => selectNumberFilteredTodos(state, completed),
+    shallowEqual,
+  );
   return <span>{numberFilteredTodos}</span>;
 }
 ```
