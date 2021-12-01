@@ -1,5 +1,14 @@
 # Changelog
 
+## [`v0.2.0`](https://github.com/alexeyraspopov/selectre/releases/tag/v0.2.0)
+
+- Improve selector inputs computation by using faster function apply approach
+  ([71e0c74](https://github.com/alexeyraspopov/selectre/commit/71e0c747a1953b49b397c577fe32c60051b397c3))
+- If selector only picks a single value without transformation, avoid redundancy
+  ([aac51c1](https://github.com/alexeyraspopov/selectre/commit/aac51c13928263dde5f2058626859e3aceeaa704))
+- Expose `cacheKey()` option for generating cache key of selector's parameters
+  ([830818a](https://github.com/alexeyraspopov/selectre/commit/830818a5cd68d744632d7e2a89c01fbc1efa3fc5))
+
 ## [`v0.1.1`](https://github.com/alexeyraspopov/selectre/releases/tag/v0.1.1)
 
 - Removed the use of Logical OR Assignment due to poor browser support
