@@ -49,6 +49,16 @@ export function createSelector(/* ...inputs, ouput, options */) {
     return entry.selector;
   }
 
+  selectorAccessor.output =
+    inputs.length > 0
+      ? function selectorOutput() {
+          return output.apply(
+            null,
+            inputs.map((input) => input.apply(null, arguments)),
+          );
+        }
+      : output;
+
   return selectorAccessor;
 }
 
