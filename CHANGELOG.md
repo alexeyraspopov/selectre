@@ -1,5 +1,12 @@
 # Changelog
 
+## [`v0.3.0`](https://github.com/alexeyraspopov/selectre/releases/tag/v0.3.0)
+
+- Add `output` helper to selector accessor to make it easier to compose selectors
+  ([8b54375](https://github.com/alexeyraspopov/selectre/commit/8b54375a1b3ef21c44d0e99b2cfe82cad78dadd8))
+- Reduce the size of selector functions
+  ([ca6f3e0](https://github.com/alexeyraspopov/selectre/commit/ca6f3e051633910b07d79c41d4ea08c5567a134d))
+
 ## [`v0.2.0`](https://github.com/alexeyraspopov/selectre/releases/tag/v0.2.0)
 
 - Improve selector inputs computation by using faster function apply approach
