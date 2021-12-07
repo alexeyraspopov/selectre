@@ -24,8 +24,6 @@ describe("state selectors", () => {
     expect(paramInput).toHaveBeenCalledTimes(3);
     expect(stateInput).toHaveBeenCalledTimes(3);
     expect(selectOutput).toHaveBeenCalledTimes(2);
-
-    expect(selectC(state)).toBe(selectUserById.output(state, "anotherId"));
   });
 
   it("should stop equality comparison if any of inputs changed", () => {
