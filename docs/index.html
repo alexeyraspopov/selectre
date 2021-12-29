@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Selectre — time and space efficient state selectors</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Select<span class="hero-anim">re</span></h1>
+      <p>Time &amp; space efficient state selectors for React, Redux, and more</p>
+      <p><code>npm install selectre</code></p>
+      <nav>
+        <li>
+          <a href="https://github.com/alexeyraspopov/selectre" target="_blank">GitHub</a>
+        </li>
+        <li>
+          <a href="https://www.npmjs.com/package/selectre" target="_blank">NPM</a>
+        </li>
+      </nav>
+    </header>
+
+    <section class="snippets">
+      <pre class="snippet language-clike">
+        <code>import { createSelector } from "selectre";</code>
+        <code></code>
+        <code>// use API similar to Reselect</code>
+        <code>let selectCurrentUser = createSelector(</code>
+        <code>  // to make simple selectors without hustle</code>
+        <code>  (state) => state.users.currentUser,</code>
+        <code>);</code>
+        <code></code>
+        <code>let selectProjectById = createSelector(</code>
+        <code>  // seamlessly use parameters as selector input</code>
+        <code>  (state, projectId) => state.projects.byId[projectId],</code>
+        <code>  // pass more inputs to grab data from different state branches</code>
+        <code>  (state) => state.meta,</code>
+        <code>  // don't worry about returning complex data</code>
+        <code>  (projectInfo, meta) => ({ ...projectInfo, ...meta }),</code>
+        <code>);</code>
+        <code></code>
+        <code>function ProjectInfo({ projectId }) {</code>
+        <code>  // call the select function to get a properly cached selector</code>
+        <code>  let currentUser = useSelector(selectCurrentUser());</code>
+        <code>  // which also allows you to pass parameters, if there any</code>
+        <code>  let projectInfo = useSelector(selectProjectById(projectId));</code>
+        <code></code>
+        <code>  return &lt;JSX /&gt;;</code>
+        <code>}</code>
+      </pre>
+    </section>
+
+    <section>
+      <h2>About</h2>
+
+      <ul>
+        <li>
+          Selectre is built as a more efficient alternative to
+          <a href="https://github.com/reduxjs/reselect" target="_blank">Reselect</a>
+        </li>
+        <li>
+          Selectre is designed to work with Redux's <code>useSelector()</code> and React's
+          <code>useSyncExternalStore()</code> and ensure the least amount of unnecessary
+          computations for things that don't change.
+        </li>
+        <li>
+          Selectre uses very efficient implementation of LRU cache to ensure no overhead in
+          accessing cached computation results.
+        </li>
+        <li>
+          Selectre uses shallow equality by default to help developers avoid shooting themselves in
+          the foot.
+        </li>
+        <li>
+          Selectre caches parametric selectors in the way that allows developers not to use
+          additional measures to memoize stuff in components.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Getting Started</h2>
+
+      <p>🚧 <em>work in progress</em> 🚧</p>
+    </section>
+
+    <section>
+      <h2>Configuration</h2>
+
+      <p>🚧 <em>work in progress</em> 🚧</p>
+    </section>
+
+    <section>
+      <h2>Types</h2>
+
+      <p>🚧 <em>work in progress</em> 🚧</p>
+    </section>
+
+    <section>
+      <h2>Comparison to Reselect</h2>
+
+      <ol>
+        <li>Selectre uses shallow equality by default, Reselect uses strict equality by default</li>
+        <li>
+          Selectre uses LRU cache by default, no need to instantiate and memoize selectors in
+          components
+        </li>
+        <li>
+          Selectre's LRU cache is implemented as Doubly-Linked List + Hash Map for perfomance and
+          better memory allocation. Reselect's LRU is <code>O(n)</code> for get and
+          <code>O(n)</code> for set operations. Frequent use of array's <code>splice()</code> and
+          <code>unshift()</code> in Reselect is an unnecessary performance burden
+        </li>
+        <li>
+          Parametric selectors in Reselect require to use arrow function with
+          <code>useSelector()</code> which means additional selector reads during forced re-render
+        </li>
+        <li>
+          Result of <code>createSelector()</code> in Selectre is not selector itself but an accessor
+          to the selector and its cached result
+        </li>
+      </ol>
+
+      <p>Getting into more details, let's consider the example that was described before:</p>
+
+      <pre class="snippet language-clike">
+        <code>import { createSelector } from "selectre";</code>
+        <code>import { useSelector } from "react-redux";</code>
+        <code></code>
+        <code>let selectNumberFilteredTodos = createSelector(</code>
+        <code>  (state) => state.todos,</code>
+        <code>  (_, completed) => completed,</code>
+        <code>  (todos, completed) => todos.filter((todo) => todo.completed === completed).length,</code>
+        <code>);</code>
+        <code></code>
+        <code>function TodoCounter({ completed }) {</code>
+        <code>  let numberFilteredTodos = useSelector(selectNumberFilteredTodos(completed));</code>
+        <code>  return &lt;span&gt;{numberFilteredTodos}&lt;/span&gt;;</code>
+        <code>}</code>
+      </pre>
+
+      <p>
+        A simple case of a selector with parameters, being used with Redux's
+        <code>useSelector()</code>. Values in the selector are compared using shallow equality by
+        default, nothing needs to be configured manually. If you want to have the same behavior
+        <a href="https://react-redux.js.org/api/hooks#using-memoizing-selectors" target="_blank"
+          >implemented with Reselect</a
+        >, here is what needs to be done:
+      </p>
+
+      <pre class="snippet language-clike">
+        <code>import { useMemo } from "react";</code>
+        <code>import { createSelector } from "reselect";</code>
+        <code>// 1. Need to explicitly set shallowEqual as a second param of useSelector</code>
+        <code>import { shallowEqual, useSelector } from "react-redux";</code>
+        <code></code>
+        <code>// 2. need to make a factory function, because selector instances can't be shared by default</code>
+        <code>let makeSelectNumberFilteredTodos = () =></code>
+        <code>  createSelector(</code>
+        <code>    (state) => state.todos,</code>
+        <code>    (_, completed) => completed,</code>
+        <code>    (todos, completed) => todos.filter((todo) => todo.completed === completed).length,</code>
+        <code>  );</code>
+        <code>  </code>
+        <code>function TodoCounter({ completed }) {</code>
+        <code>  // 3. additional friction in order to start using a selector</code>
+        <code>  let selectNumberFilteredTodos = useMemo(makeSelectNumberFilteredTodos, []);</code>
+        <code>  // 4. still need to use arrow function in useSelector() which means additional read operation</code>
+        <code>  let numberFilteredTodos = useSelector(</code>
+        <code>    (state) => selectNumberFilteredTodos(state, completed),</code>
+        <code>    shallowEqual,</code>
+        <code>  );</code>
+        <code>  return <span>{numberFilteredTodos}</span>;</code>
+        <code>}</code>
+      </pre>
+
+      <p>
+        This simple case requires developer to know plenty of details, just to make sure that a
+        selector that returns an object does not affect performance. It is something that quite easy
+        to overlook, e.g. when you only update selector's output from primitive value to object.
+      </p>
+    </section>
+
+    <section>
+      <h2>Credits</h2>
+
+      <p>
+        The intent and main API is similar and based on
+        <a href="https://github.com/reduxjs/reselect" target="_blank">Reselect</a>.
+      </p>
+      <p>
+        LRU cache implementation is based on
+        <a href="https://yomguithereal.github.io/posts/lru-cache" target="_blank"
+          >Guillaume Plique's article about LRU cache and using typed arrays to implement
+          Doubly-Linked Lists</a
+        >
+        (GitHub: <a href="https://github.com/Yomguithereal" target="_blank">@Yomguithereal</a>,
+        Twitter: <a href="https://twitter.com/Yomguithereal" target="_blank">@Yomguithereal</a>).
+      </p>
+      <p>
+        Cache key's hash function implementation is based on
+        <a
+          href="https://github.com/immutable-js/immutable-js/blob/4d0e9819e509861d0f16a64a4fc0bfdc892563f9/src/Hash.js"
+          >Immutable.js <code>hashCode()</code></a
+        >.
+      </p>
+    </section>
+
+    <footer>ISC License &copy; Alexey Raspopov</footer>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

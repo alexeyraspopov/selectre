@@ -1,0 +1,232 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 27px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+header {
+  margin: 5em 0;
+  text-align: center;
+}
+header > * {
+  margin: 0.25em 0;
+  line-height: 2;
+}
+header code {
+  background: #1d1f21;
+  color: white;
+  padding: 0.25em 0.5em;
+  border-radius: 4px;
+}
+header nav {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 1em 0;
+}
+header a {
+  margin: 0 1em;
+  font-weight: bold;
+}
+a {
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
+li {
+  margin-bottom: 0.5em;
+}
+.hero-anim {
+  color: red;
+  animation: colors 4s infinite;
+}
+@keyframes colors {
+  from {
+    color: hsl(0, 100%, 50%);
+  }
+  25% {
+    color: hsl(90, 100%, 50%);
+  }
+  50% {
+    color: hsl(180, 100%, 50%);
+  }
+  75% {
+    color: hsl(270, 100%, 50%);
+  }
+  to {
+    color: hsl(360, 100%, 50%);
+  }
+}
+
+footer {
+  font-style: italic;
+  font-size: 0.95em;
+  margin: 2em 0;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 1em;
+  counter-reset: code;
+  white-space: normal;
+  font-size: 14px;
+  padding: 1em;
+}
+
+pre code {
+  display: block;
+  padding: 0 2.5em;
+  border-radius: 0;
+  background-color: transparent;
+  line-height: 1.85;
+  white-space: pre;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  min-height: 1.85em;
+  position: relative;
+  font-family: inherit;
+}
+
+pre code:not(:only-child)::before {
+  position: absolute;
+  margin-left: -2em;
+  color: gray;
+  opacity: 0.85;
+  counter-increment: code;
+  content: counter(code, decimal-leading-zero);
+  user-select: none;
+  pointer-events: none;
+}
+
+p code,
+li code {
+  letter-spacing: -0.03em;
+}
+
+.snippet {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 8px;
+}
+
+code {
+  font-family: Inconsolata, Monaco, Consolas, "Courier New", Courier, monospace;
+  font-size: inherit;
+}
+
+pre[class*="language-"] {
+  color: white;
+  font-family: Inconsolata, Monaco, Consolas, "Courier New", Courier, monospace;
+  direction: ltr;
+  text-align: left;
+  overflow: auto;
+}
+
+pre[class*="language-"] {
+  background: #1d1f21;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #7c7c7c;
+}
+
+.token.punctuation {
+  color: #c5c8c6;
+}
+
+.namespace {
+  opacity: 0.7;
+}
+
+.token.property,
+.token.keyword,
+.token.tag {
+  color: #96cbfe;
+}
+
+.token.class-name {
+  color: #ffffb6;
+  text-decoration: underline;
+}
+
+.token.boolean,
+.token.constant {
+  color: #99cc99;
+}
+
+.token.symbol,
+.token.deleted {
+  color: #f92672;
+}
+
+.token.number {
+  color: #ff73fd;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #a8ff60;
+}
+
+.token.variable {
+  color: #c6c5fe;
+}
+
+.token.operator {
+  color: #ededed;
+}
+
+.token.entity {
+  color: #ffffb6;
+  cursor: help;
+}
+
+.token.url {
+  color: #96cbfe;
+}
+
+.language-css .token.string,
+.style .token.string {
+  color: #87c38a;
+}
+
+.token.atrule,
+.token.attr-value {
+  color: #f9ee98;
+}
+
+.token.function {
+  color: #dad085;
+}
+
+.token.regex {
+  color: #e9c062;
+}
+
+.token.important {
+  color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
