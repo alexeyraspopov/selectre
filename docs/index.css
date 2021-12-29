@@ -37,6 +37,9 @@ header a {
   margin: 0 1em;
   font-weight: bold;
 }
+body > section {
+  margin-bottom: 3em;
+}
 a {
   text-decoration: none;
   border-bottom: 1px solid;

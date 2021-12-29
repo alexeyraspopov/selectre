@@ -21,7 +21,7 @@
       </nav>
     </header>
 
-    <section class="snippets">
+    <section>
       <pre class="snippet language-clike">
         <code>import { createSelector } from "selectre";</code>
         <code></code>
@@ -59,19 +59,29 @@
           Selectre is built as a more efficient alternative to
           <a href="https://github.com/reduxjs/reselect" target="_blank">Reselect</a>
         </li>
+
         <li>
-          Selectre is designed to work with Redux's <code>useSelector()</code> and React's
-          <code>useSyncExternalStore()</code> and ensure the least amount of unnecessary
-          computations for things that don't change.
+          Selectre is designed to work with
+          <a href="https://react-redux.js.org/api/hooks#useselector" target="_blank"
+            >Redux's <code>useSelector()</code></a
+          >
+          and
+          <a href="https://github.com/reactwg/react-18/discussions/86" target="_blank"
+            >React's <code>useSyncExternalStore()</code></a
+          >
+          and ensure the least amount of unnecessary computations for things that don't change.
         </li>
+
         <li>
           Selectre uses very efficient implementation of LRU cache to ensure no overhead in
           accessing cached computation results.
         </li>
+
         <li>
           Selectre uses shallow equality by default to help developers avoid shooting themselves in
           the foot.
         </li>
+
         <li>
           Selectre caches parametric selectors in the way that allows developers not to use
           additional measures to memoize stuff in components.
@@ -94,7 +104,41 @@
     <section>
       <h2>Types</h2>
 
-      <p>🚧 <em>work in progress</em> 🚧</p>
+      <p>
+        Selectre includes necessary type definitions to enhance developers experience when using
+        <a href="https://www.typescriptlang.org" target="_blank">TypeScript</a>. Writing selectors
+        in TypeScript, there are a couple of things you may encounter and this guide should help
+        addressing them.
+      </p>
+
+      <p>
+        <b>State parameter should always be typed.</b> Selectors do not know where the state is
+        coming from and who is calling them. To improve developers experience it is better to
+        explicitly define state's type:
+      </p>
+
+      <pre class="snippet language-clike">
+        <code>let selectData = createSelector(</code>
+        <code>  (state: MyStateType) => state.a.b.c.data,</code>
+        <code>);</code>
+      </pre>
+
+      <p>
+        <b>Parametric selectors should enumerate all parameters in the first input.</b> The way how
+        type definitions are written, TypeScript expects all input functions to have the same
+        signatures (because all of them receive the same parameters during computation). It is
+        likely that some inputs may not use all parameters, so it is fine to skip some of them. But
+        TypeScript relies on the very first input of a selector to determine what parameters to look
+        for in the following inputs and in the selector signature:
+      </p>
+
+      <pre class="snippet language-clike">
+        <code>let selectDataByParams = createSelector(</code>
+        <code>  (state: MyState, id: string, offset: number) => state.data.slice(offset, 10),</code>
+        <code>  (state: MyState, id: string) => state.some.other.stuff[id],</code>
+        <code>  (data, stuff) => [data, stuff],</code>
+        <code>);</code>
+      </pre>
     </section>
 
     <section>
@@ -162,7 +206,7 @@
         <code>    (_, completed) => completed,</code>
         <code>    (todos, completed) => todos.filter((todo) => todo.completed === completed).length,</code>
         <code>  );</code>
-        <code>  </code>
+        <code></code>
         <code>function TodoCounter({ completed }) {</code>
         <code>  // 3. additional friction in order to start using a selector</code>
         <code>  let selectNumberFilteredTodos = useMemo(makeSelectNumberFilteredTodos, []);</code>
@@ -171,7 +215,7 @@
         <code>    (state) => selectNumberFilteredTodos(state, completed),</code>
         <code>    shallowEqual,</code>
         <code>  );</code>
-        <code>  return <span>{numberFilteredTodos}</span>;</code>
+        <code>  return &lt;span&gt;{numberFilteredTodos}&lt;/span&gt;;</code>
         <code>}</code>
       </pre>
 
