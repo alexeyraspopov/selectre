@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 16
       - name: Install docs-related dependencies
-        run: npm install && npx parcel build docs/index.html --public-url /selectre
+        run: npm install && npx parcel build docs/index.html
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
