@@ -1,0 +1,26 @@
+name: Docs
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Install docs-related dependencies
+        run: npm install && cd docs && npx parcel build index.html && cd ..
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: dist
+          verbose: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_GITHUB_TOKEN }}
