@@ -1,5 +1,10 @@
 # Changelog
 
+## [`v0.4.0`](https://github.com/alexeyraspopov/selectre/releases/tag/v0.4.0)
+
+- Remove `output` helper as it appeared to be inefficient
+  ([9296259](https://github.com/alexeyraspopov/selectre/commit/9296259963f62a957c992356effe2d526e2693b1))
+
 ## [`v0.3.0`](https://github.com/alexeyraspopov/selectre/releases/tag/v0.3.0)
 
 - Add `output` helper to selector accessor to make it easier to compose selectors

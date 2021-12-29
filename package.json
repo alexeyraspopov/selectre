@@ -1,10 +1,10 @@
 {
   "name": "selectre",
-  "version": "0.3.0",
-  "description": "A tiny time and space efficient state selectors for React, Redux, and more",
+  "version": "0.4.0",
+  "description": "Time and space efficient state selectors for React, Redux, and more",
   "author": "Alexey Raspopov",
   "license": "ISC",
-  "homepage": "https://alexeyraspopov.github.io/selectre",
+  "homepage": "https://selectre.js.org",
   "repository": "alexeyraspopov/selectre",
   "scripts": {
     "test": "jest --config jest.config.js",
